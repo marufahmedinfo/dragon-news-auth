@@ -2,6 +2,10 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import HomeLayout from "../layouts/HomeLayout";
 import CategoryNews from "../pages/CategoryNews";
 import AuthLayout from "../layouts/AuthLayout";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import NewsDetails from "../pages/NewsDetails";
+import PrivetRoute from "./PrivetRoute";
 
 const router = createBrowserRouter([
   {
@@ -23,8 +27,9 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/news",
-    element: <h1>News Layout</h1>,
+    path: "/news/:id",
+    element: <PrivetRoute><NewsDetails/></PrivetRoute>,
+    loader: ({params}) => fetch(`https://openapi.programming-hero.com/api/news/${params.id}`)
   },
   {
     path: "/auth",
@@ -32,17 +37,17 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/auth/login',
-        element: <h1>Login</h1>
+        element: <Login />
       },
       {
         path: '/auth/register',
-        element: <h1>Register</h1>
+        element: <Register />
       }
     ]
   },
   {
     path: "*",
-    element: <h1>Error</h1>,
+    element: <h1 className="text-5xl font-bold text-center">Page Error 404</h1>
   },
 ]);
 
